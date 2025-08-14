@@ -1,10 +1,10 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { PrismaD1 } from "@prisma/adapter-d1";
 import { PrismaClient } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function Home() {
-
+  noStore();
   const adapter = new PrismaD1((await getCloudflareContext({ async: true })).env.DB)
   const prisma = new PrismaClient({ adapter });
   const users = await prisma.user.findMany();
